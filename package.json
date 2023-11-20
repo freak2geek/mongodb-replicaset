@@ -1,0 +1,19 @@
+{
+  "name": "mongodb-replicaset",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freak2geek/mongodb-replicaset.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/freak2geek/mongodb-replicaset/issues"
+  },
+  "homepage": "https://github.com/freak2geek/mongodb-replicaset#readme"
+}
