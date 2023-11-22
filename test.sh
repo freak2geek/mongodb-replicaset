@@ -4,7 +4,7 @@ export PROCESS_WAIT_TIMEOUT=3600000
 
 function isRunningMongo() {
   local mongoUrl="${1}"
-  mongosh $MONGO_URL_ONE --eval "print('Connected to MongoDB')"
+  mongosh ${mongoUrl} --eval "print('Connected to MongoDB')"
   if [[ $? -eq 0 ]]; then
     return
   else
@@ -26,9 +26,10 @@ function waitMongo() {
   done
 
   if isRunningMongo "${mongoUrl}"; then
+    echo "MongoDB is running. ${mongoUrl}"
     return
   else
-    logProcessError "Timout reached (${processWaitTimeoutSecs} seconds). Unable to wait for mongo instance."
+    echo "Timout reached (${processWaitTimeoutSecs} seconds). Unable to wait for mongo instance."
     return 1
   fi
 }
