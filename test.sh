@@ -4,9 +4,13 @@ export PROCESS_WAIT_TIMEOUT=600000
 
 function isRunningMongo() {
   local mongoUrl="${1}"
-  mongosh ${mongoUrl} --eval "rs.status()"
+  error_message=$(mongosh "${mongoUrl}" --eval "print('Connected to MongoDB')" 2>&1)
   if [[ $? -eq 0 ]]; then
-    return
+    if [[ $error_message == *"MongoServerSelectionError"* ]]; then
+      return
+    else
+      return
+    fi
   else
     return 1
   fi
