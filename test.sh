@@ -1,10 +1,38 @@
 #!/usr/bin/env bash
 
-# Check if MongoDB is running on the specified host and port
-mongosh $MONGO_URL_ONE --eval "print('Connected to MongoDB')"
+export PROCESS_WAIT_TIMEOUT=3600000
 
-if [ $? -eq 0 ]; then
-  echo "MongoDB nodes are available."
-else
-  echo "MongoDB nodes are not available."
-fi
+function isRunningMongo() {
+  local mongoUrl="${1}"
+  mongosh $MONGO_URL_ONE --eval "print('Connected to MongoDB')"
+  if [[ $? -eq 0 ]]; then
+    return
+  else
+    return 1
+  fi
+}
+
+function waitMongo() {
+  local mongoUrl="${1}"
+  local processWaitTimeoutSecs=$((PROCESS_WAIT_TIMEOUT / 1000))
+
+  echo "Waiting mongo..."
+  echo "- Url: ${mongoUrl}"
+
+  local waitSecs=0
+  while ! isRunningMongo "${mongoUrl}" && [[ "${waitSecs}" -lt "${processWaitTimeoutSecs}" ]]; do
+    sleep 1
+    waitSecs=$((waitSecs + 1))
+  done
+
+  if isRunningMongo "${mongoUrl}"; then
+    return
+  else
+    logProcessError "Timout reached (${processWaitTimeoutSecs} seconds). Unable to wait for mongo instance."
+    return 1
+  fi
+}
+
+waitMongo $MONGO_URL_ONE
+waitMongo $MONGO_URL_TWO
+waitMongo $MONGO_URL_THREE
