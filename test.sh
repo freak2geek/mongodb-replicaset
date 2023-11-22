@@ -38,3 +38,6 @@ function waitMongo() {
 waitMongo $MONGO_URL_ONE
 waitMongo $MONGO_URL_TWO
 waitMongo $MONGO_URL_THREE
+
+mongosh $MONGO_URL_ONE --eval "rs.initiate({ _id: "rs0", members: [{ _id: 0, host: "${MONGO_URL_ONE}" }, { _id: 1, host: "${MONGO_URL_TWO}" }, { _id: 2, host: "${MONGO_URL_THREE}" }]})"
+mongosh $MONGO_URL_ONE --eval "rs.status()"
