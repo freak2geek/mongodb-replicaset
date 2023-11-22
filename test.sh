@@ -4,7 +4,7 @@ export PROCESS_WAIT_TIMEOUT=600000
 
 function isRunningMongo() {
   local mongoUrl="${1}"
-  mongosh ${mongoUrl} --eval "print('Connected to MongoDB')"
+  mongosh ${mongoUrl} --eval "rs.status()"
   if [[ $? -eq 0 ]]; then
     return
   else
