@@ -39,5 +39,9 @@ waitMongo $MONGO_URL_ONE
 waitMongo $MONGO_URL_TWO
 waitMongo $MONGO_URL_THREE
 
-mongosh $MONGO_URL_ONE --eval "rs.initiate({ _id: \"rs0\", members: [{ _id: 0, host: \"${MONGO_URL_ONE}\" }, { _id: 1, host: \"${MONGO_URL_TWO}\" }, { _id: 2, host: \"${MONGO_URL_THREE}\" }]})"
+hostOne="$(echo "${MONGO_URL_ONE}" | sed 's/mongo:[^@]*@//')"
+hostTwo="$(echo "${MONGO_URL_TWO}" | sed 's/mongo:[^@]*@//')"
+hostThree="$(echo "${MONGO_URL_THREE}" | sed 's/mongo:[^@]*@//')"
+
+mongosh $MONGO_URL_ONE --eval "rs.initiate({ _id: \"rs0\", members: [{ _id: 0, host: \"${hostOne}\" }, { _id: 1, host: \"${hostTwo}\" }, { _id: 2, host: \"${hostThree}\" }]})"
 mongosh $MONGO_URL_ONE --eval "rs.status()"
