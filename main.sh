@@ -50,3 +50,5 @@ hostThree="$(formatMongoHost "${MONGO_URL_THREE}")"
 
 mongosh $MONGO_URL_ONE --eval "rs.initiate({ _id: \"rs0\", members: [{ _id: 0, host: \"${hostOne}\" }, { _id: 1, host: \"${hostTwo}\" }, { _id: 2, host: \"${hostThree}\" }]})"
 mongosh $MONGO_URL_ONE --eval "rs.status()"
+
+exit
