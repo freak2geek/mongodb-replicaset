@@ -11,7 +11,7 @@ function isRunningMongo() {
   local mongoUrl="${1}"
   local output=$(mongosh "${mongoUrl}" --eval "print('Connected to MongoDB')" 2>&1)
   echo $output
-  if [[ $output == *"MongoServerSelectionError"* ]] || [[ $output == *"Connected to MongoDB"* ]]; then
+  if [[ $output == *"MongoServerSelectionError"* ]] || [[ $output == *"Connected to MongoDB"* ]] || [[ $output == *"Authentication failed"* ]]; then
     return
   else
     return 1
