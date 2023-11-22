@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PROCESS_WAIT_TIMEOUT=3600000
+export PROCESS_WAIT_TIMEOUT=600000
 
 function isRunningMongo() {
   local mongoUrl="${1}"
@@ -21,7 +21,7 @@ function waitMongo() {
 
   local waitSecs=0
   while ! isRunningMongo "${mongoUrl}" && [[ "${waitSecs}" -lt "${processWaitTimeoutSecs}" ]]; do
-    sleep 1
+    sleep 5
     waitSecs=$((waitSecs + 1))
   done
 
